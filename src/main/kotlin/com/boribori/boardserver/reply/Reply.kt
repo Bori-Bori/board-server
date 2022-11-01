@@ -1,24 +1,27 @@
 package com.boribori.boardserver.reply
 
-import com.boribori.boardserver.board.Board
-import com.boribori.boardserver.reply.auditing.ReplyBaseEntity
+import com.boribori.boardserver.comment.Comment
 import lombok.Builder
-import java.util.UUID
+import org.springframework.data.jpa.domain.support.AuditingEntityListener
+import java.util.*
 import javax.persistence.*
 
 @Builder
 @Entity
-class Reply: ReplyBaseEntity() {
-
+@EntityListeners(AuditingEntityListener::class)
+class Reply {
     @Id
-    private var id: String? = UUID.randomUUID().toString();
+    @Builder.Default()
+    private var id: UUID? = UUID.randomUUID()
 
     @Column
-    private var content: String? = null;
+    private var content: String? = null
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "board")
-    private var board: Board? = null;
+    @JoinColumn(name = "reply")
+    private var comment: Comment? = null
 
+    @Column
+    private var writer: String? = null
 
 }

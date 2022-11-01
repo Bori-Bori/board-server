@@ -1,7 +1,7 @@
 package com.boribori.boardserver.board
 
 
-import com.boribori.boardserver.reply.Reply
+import com.boribori.boardserver.comment.Comment
 import lombok.Builder
 import lombok.Getter
 import java.time.LocalDate
@@ -36,6 +36,6 @@ class Board {
     private var category3: String? = null
 
     @OneToMany(cascade = [(CascadeType.ALL)], fetch = FetchType.LAZY, mappedBy = "board")
-    private var replyList = mutableListOf<Reply>()
+    private var commentList = mutableListOf<Comment>()
 
 }
