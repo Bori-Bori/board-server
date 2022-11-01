@@ -1,14 +1,14 @@
 package com.boribori.boardserver.board
 
+import com.boribori.boardserver.board.dto.request.RequestOfGetBooks
 import org.springframework.stereotype.Service
-import java.util.UUID
 
 @Service
 class BoardService (
         private val boardRepository: BoardRepository
         ){
 
-    fun getBoard(boardId: UUID): Board{
+        fun getBoardList(requestOfGetBooks: RequestOfGetBooks){
 
-    }
+        }
 }

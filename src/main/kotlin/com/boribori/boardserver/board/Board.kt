@@ -3,6 +3,7 @@ package com.boribori.boardserver.board
 
 import lombok.Builder
 import lombok.Getter
+import java.time.LocalDate
 import java.util.*
 import javax.persistence.*
 
@@ -13,11 +14,24 @@ import javax.persistence.*
 class Board {
 
     @Id
-    private val id: UUID = UUID.randomUUID();
+    private val isbn: UUID = UUID.randomUUID();
 
     @Column
     private var title: String? = null;
 
+    @Column
+    private var author: String? = null;
 
+    @Column
+    private var pubDate: LocalDate? = null;
+
+    @Column
+    private var category1: String? = null;
+
+    @Column
+    private var category2: String? = null;
+
+    @Column
+    private var category3: String? = null;
 
 }
