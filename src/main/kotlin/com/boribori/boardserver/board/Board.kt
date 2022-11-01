@@ -1,6 +1,7 @@
 package com.boribori.boardserver.board
 
 
+import com.boribori.boardserver.reply.Reply
 import lombok.Builder
 import lombok.Getter
 import java.time.LocalDate
@@ -14,24 +15,27 @@ import javax.persistence.*
 class Board {
 
     @Id
-    private val isbn: UUID = UUID.randomUUID();
+    private val isbn: UUID = UUID.randomUUID()
 
     @Column
-    private var title: String? = null;
+    private var title: String? = null
 
     @Column
-    private var author: String? = null;
+    private var author: String? = null
 
     @Column
-    private var pubDate: LocalDate? = null;
+    private var pubDate: LocalDate? = null
 
     @Column
-    private var category1: String? = null;
+    private var category1: String? = null
 
     @Column
-    private var category2: String? = null;
+    private var category2: String? = null
 
     @Column
-    private var category3: String? = null;
+    private var category3: String? = null
+
+    @OneToMany(cascade = [(CascadeType.ALL)], fetch = FetchType.LAZY, mappedBy = "board")
+    private var replyList = mutableListOf<Reply>()
 
 }
