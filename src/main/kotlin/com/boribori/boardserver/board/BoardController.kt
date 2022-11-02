@@ -2,6 +2,8 @@ package com.boribori.boardserver.board
 
 import com.boribori.boardserver.board.dto.DtoOfGetBoard
 import com.boribori.boardserver.board.dto.request.RequestOfGetBooks
+import com.boribori.boardserver.util.RequestUtil
+import com.boribori.boardserver.util.dto.ResponseOfGetBook
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -11,7 +13,8 @@ import java.util.*
 
 @RestController
 class BoardController(
-        private val boardService: BoardService
+        private val boardService: BoardService,
+        private val requestUtil: RequestUtil
 ) {
 
     @GetMapping("/api/board/{boardId}")
@@ -23,7 +26,10 @@ class BoardController(
     @GetMapping("/api/boards")
     fun getBoardList(@RequestParam request: RequestOfGetBooks){
 
+    }
 
-
+    @GetMapping("/api/test")
+    fun getISBN(@RequestParam isbn : String): ResponseOfGetBook? {
+        return requestUtil.getIsbn(isbn);
     }
 }
