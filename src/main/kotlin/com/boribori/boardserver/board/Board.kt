@@ -2,14 +2,10 @@ package com.boribori.boardserver.board
 
 
 import com.boribori.boardserver.comment.Comment
-import lombok.Builder
-import lombok.Getter
 import java.time.LocalDate
 import javax.persistence.*
 
 
-@Getter
-@Builder
 @Entity
 class Board ( @Id val isbn: String,
               @Column
@@ -29,6 +25,9 @@ class Board ( @Id val isbn: String,
 
               @Column
               private var category3: String? = null,
+
+              @Column
+              private var publisher: String? = null,
 
               @OneToMany(cascade = [(CascadeType.ALL)], fetch = FetchType.LAZY, mappedBy = "board")
               private var commentList: MutableList<Comment> = mutableListOf<Comment>()){
