@@ -1,15 +1,16 @@
 package com.boribori.boardserver.board
 
-import com.boribori.boardserver.board.dto.DtoOfGetBoard
 import com.boribori.boardserver.board.dto.request.RequestOfGetBooks
+import com.boribori.boardserver.board.dto.response.ResponseOfGetBoard
+import com.boribori.boardserver.common.Response
 import com.boribori.boardserver.util.RequestUtil
 import com.boribori.boardserver.util.dto.ResponseOfGetBook
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
-import java.util.*
 
 @RestController
 class BoardController(
@@ -18,9 +19,13 @@ class BoardController(
 ) {
 
     @GetMapping("/api/board/{boardId}")
-    fun getBoard(@PathVariable boardId: String): String{
+    fun getBoard(@PathVariable boardId: String): ResponseEntity<Response<ResponseOfGetBoard>>{
+        var boardEntity = boardService.getBoard(boardId);
 
-        return boardId;
+        return ResponseEntity(Response(
+                content = boardEntity,
+                status = Response.Status("성공적으로 조회되었습니다.")
+        ), HttpStatus.OK);
     }
 
     @GetMapping("/api/boards")

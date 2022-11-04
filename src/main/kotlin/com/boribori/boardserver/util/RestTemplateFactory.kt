@@ -2,6 +2,7 @@ package com.boribori.boardserver.util
 
 import com.boribori.boardserver.util.dto.ResponseOfGetBook
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpEntity
@@ -17,7 +18,7 @@ import org.springframework.web.util.UriComponentsBuilder
 
 @Component
 class RestTemplateFactory{
-    val objectMapper: ObjectMapper = ObjectMapper()
+    val objectMapper: ObjectMapper = ObjectMapper().registerModule(JavaTimeModule())
     val restTemplate: RestTemplate = RestTemplate()
 
     fun getHeader(): HttpHeaders {
@@ -30,7 +31,7 @@ class RestTemplateFactory{
         return HttpEntity(getHeader())
     }
 
-    fun exchage(isbn: String): ResponseOfGetBook? {
+    fun exchage(isbn: String): ResponseOfGetBook {
         var params : HashMap<String, String> = HashMap();
         params.put("isbn", isbn)
         val response : String? = restTemplate.getForObject<String>("http://localhost:8081/api/search/book?isbn="+isbn,getHttpEntity(), String :: class)
