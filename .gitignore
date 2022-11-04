@@ -90,4 +90,4 @@ target/
 /bin
 
 application.yml
-application-jwt.yml
+applicaiton-jwt.yml
