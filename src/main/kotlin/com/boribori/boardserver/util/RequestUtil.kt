@@ -12,7 +12,7 @@ class RequestUtil (
         private val restTemplateFactory: RestTemplateFactory
         ){
 
-    fun getIsbn(isbn : String) : ResponseOfGetBook? {
+    fun getIsbn(isbn : String) : ResponseOfGetBook {
         return restTemplateFactory.exchage(isbn)
     }
 

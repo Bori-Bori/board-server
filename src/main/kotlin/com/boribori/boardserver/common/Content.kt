@@ -1,6 +1,7 @@
 package com.boribori.boardserver.common
 
 import com.google.gson.annotations.SerializedName
+import java.time.LocalDate
 
 data class Content (
 
@@ -12,7 +13,10 @@ data class Content (
         @SerializedName("price"       ) var price       : Int?     = null,
         @SerializedName("publisher"   ) var publisher   : String?  = null,
         @SerializedName("page"        ) var page        : Int?     = null,
-        @SerializedName("pubDate"     ) var pubDate     : String?  = null,
-        @SerializedName("adult"       ) var adult       : Boolean? = null
+        @SerializedName("pubDate"     ) var pubDate     : LocalDate?  = null,
+        @SerializedName("adult"       ) var adult       : Boolean? = null,
+        @SerializedName("category1"       ) var category1       : String?  = null,
+        @SerializedName("category2"       ) var category2       : String?  = null,
+        @SerializedName("category3"       ) var category3       : String?  = null,
 
 )
