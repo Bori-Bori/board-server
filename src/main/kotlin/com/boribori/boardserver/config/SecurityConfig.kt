@@ -1,7 +1,6 @@
 package com.boribori.boardserver.config
 
 import com.boribori.boardserver.auth.JwtAuthenticationFilter
-import com.boribori.boardserver.auth.JwtProperties
 import com.boribori.boardserver.auth.JwtProvider
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -21,6 +20,6 @@ class SecurityConfig: WebSecurityConfigurerAdapter() {
                 .authorizeRequests()
                 .anyRequest().permitAll()
                 .and()
-                .addFilterBefore(JwtAuthenticationFilter(JwtProvider(JwtProperties())), UsernamePasswordAuthenticationFilter :: class.java)
+                .addFilterBefore(JwtAuthenticationFilter(JwtProvider()), UsernamePasswordAuthenticationFilter :: class.java)
     }
 }

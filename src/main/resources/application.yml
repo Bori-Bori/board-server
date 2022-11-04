@@ -25,3 +25,6 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
+jwt:
+  access-token-key: "123"
