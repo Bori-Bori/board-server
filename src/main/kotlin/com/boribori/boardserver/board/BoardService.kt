@@ -36,13 +36,15 @@ class BoardService (
                                                 category1 = content?.category1,
                                                 category2 = content?.category2,
                                                 category3 = content?.category3,
-                                                description = content?.description
+                                                description = content?.description,
+                                                publisher = content?.publisher
                                         )
                                 }
 
                                 var board = Board(
                                 isbn = isbn,
                                 author = content?.author,
+                                publisher = content?.publisher,
                                 pubDate = content?.pubDate,
                                 title = content?.title,
                                 category1 = content?.category1,
@@ -60,7 +62,8 @@ class BoardService (
                                         category1 = content?.category1,
                                         category2 = content?.category2,
                                         category3 = content?.category3,
-                                        description = content?.description
+                                        description = content?.description,
+                                        publisher = content?.publisher
                                 )
 
                         }

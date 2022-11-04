@@ -88,3 +88,6 @@ local.properties
 target/
 
 /bin
+
+application.yml
+applicaiton-jwt.yml
