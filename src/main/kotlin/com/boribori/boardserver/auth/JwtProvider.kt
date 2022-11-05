@@ -12,7 +12,7 @@ import java.nio.charset.StandardCharsets
 class JwtProvider
         {
     @Value("\${jwt.access-token-key}")
-    lateinit var tokenKey: String
+    val tokenKey: String = ""
 
     fun getUserData(accessToken: String): UserDataOfJwt? {
 
