@@ -4,12 +4,12 @@ data class UserDataOfJwt (
         /**
          * jwt subject
          */
-        val id: String? = null,
+        val id: String,
 
         /**
          * jwt payload 내에 존재하는 요청자 nickname
          */
-        val nickname: String? = null
+        val nickname: String
 
 ){
 

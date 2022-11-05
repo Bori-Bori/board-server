@@ -20,7 +20,7 @@ class JwtProvider
 
         return UserDataOfJwt(
                 id = claims.subject,
-                nickname = claims.get("nickname") as String?
+                nickname = claims.get("nickname") as String
         )
     }
 

@@ -7,6 +7,7 @@ import com.boribori.boardserver.util.ParsingUtil
 import com.boribori.boardserver.util.RequestUtil
 import com.boribori.boardserver.util.dto.ResponseOfGetBook
 import org.springframework.stereotype.Service
+import java.lang.RuntimeException
 import java.util.*
 
 @Service
@@ -69,6 +70,11 @@ class BoardService (
                         }
 
 
+        }
+
+        fun getBoardEntity(isbn : String) : Board {
+                boardRepository.findByIsbn(isbn)?.let { return it }
+                        ?: throw RuntimeException("에러~")
         }
 
 

@@ -34,7 +34,7 @@ class AuthUser (
     }
 
     override fun getUsername(): String {
-        return id
+        return userPayloads.nickname
     }
 
     override fun isAccountNonExpired(): Boolean {

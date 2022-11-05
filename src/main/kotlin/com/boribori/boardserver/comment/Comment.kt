@@ -1,6 +1,7 @@
 package com.boribori.boardserver.comment
 
 import com.boribori.boardserver.board.Board
+import com.boribori.boardserver.board.dto.response.ResponseOfGetBoard
 import com.boribori.boardserver.comment.auditing.CommentBaseEntity
 import com.boribori.boardserver.reply.Reply
 import lombok.Builder
@@ -9,24 +10,32 @@ import javax.persistence.*
 
 @Builder
 @Entity
-class Comment: CommentBaseEntity() {
+class Comment(
+        @Id
+        @Builder.Default()
+        var id: UUID = UUID.randomUUID(),
 
-    @Id
-    @Builder.Default()
-    private var id: UUID? = UUID.randomUUID()
+        @OneToMany(cascade = [(CascadeType.ALL)], fetch = FetchType.LAZY, mappedBy = "comment")
+        var replyList: MutableList<Reply> = mutableListOf<Reply>(),
 
-    @Column
-    private var content: String? = null;
+        @Column
+        var content: String,
 
-    @OneToMany(cascade = [(CascadeType.ALL)], fetch = FetchType.LAZY, mappedBy = "comment")
-    private var replyList = mutableListOf<Reply>()
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name = "board")
+        var board: Board,
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "board")
-    private var board: Board? = null;
+        @Column
+        var username: String,
 
-    @Column
-    private var writer: String? = null
+        @Column
+        var userId : String,
+
+        @Column
+        var page: Int
+
+): CommentBaseEntity() {
+
 
 
 }
