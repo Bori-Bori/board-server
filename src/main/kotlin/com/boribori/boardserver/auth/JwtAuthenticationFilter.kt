@@ -20,6 +20,10 @@ class JwtAuthenticationFilter (
         var authorizationHeader : String? = (request as HttpServletRequest).getHeader(AUTHORIZATION_HEADER)
 
         val token : String = getToken(authorizationHeader)
+//        if(token == ""){
+//            chain.doFilter(request, response)
+//            return
+//        }
 
         var userData : UserDataOfJwt? = jwtProvider.getUserData(token)
 
