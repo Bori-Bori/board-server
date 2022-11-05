@@ -1,4 +1,6 @@
 package com.boribori.boardserver.comment
 
-class CommentRepository {
+import org.springframework.data.jpa.repository.JpaRepository
+
+interface CommentRepository : JpaRepository<Comment, String>{
 }
