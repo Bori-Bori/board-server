@@ -3,6 +3,7 @@ package com.boribori.boardserver.comment
 import com.boribori.boardserver.auth.dto.AuthUser
 import com.boribori.boardserver.board.BoardService
 import com.boribori.boardserver.comment.dto.RequestOfCreateComment
+import com.boribori.boardserver.comment.dto.RequestOfGetComment
 import org.springframework.stereotype.Service
 
 @Service
@@ -23,5 +24,9 @@ class CommentService (
                 page = requestOfCreateComment.page
         );
         return commentRepository.save(comment);
+    }
+
+    fun getComment(boardId: String, requestOfGetComment: RequestOfGetComment){
+
     }
 }
