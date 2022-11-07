@@ -1,4 +1,6 @@
 package com.boribori.boardserver.reply
 
-class ReplyRepository {
+import org.springframework.data.jpa.repository.JpaRepository
+
+interface ReplyRepository : JpaRepository<Reply, String>{
 }
