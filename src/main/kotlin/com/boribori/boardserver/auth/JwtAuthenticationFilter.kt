@@ -19,6 +19,10 @@ class JwtAuthenticationFilter (
     override fun doFilter(request: ServletRequest, response: ServletResponse, chain: FilterChain) {
         var authorizationHeader : String? = (request as HttpServletRequest).getHeader(AUTHORIZATION_HEADER)
 
+        if(authorizationHeader == null){
+            chain.doFilter(request, response);
+            return;
+        }
         val token : String = getToken(authorizationHeader)
 //        if(token == ""){
 //            chain.doFilter(request, response)

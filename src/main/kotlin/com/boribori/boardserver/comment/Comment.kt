@@ -13,7 +13,7 @@ import javax.persistence.*
 class Comment(
         @Id
         @Builder.Default()
-        var id: UUID = UUID.randomUUID(),
+        var id: String = UUID.randomUUID().toString(),
 
         @OneToMany(cascade = [(CascadeType.ALL)], fetch = FetchType.LAZY, mappedBy = "comment")
         var replyList: MutableList<Reply> = mutableListOf<Reply>(),
@@ -22,7 +22,7 @@ class Comment(
         var content: String,
 
         @ManyToOne(fetch = FetchType.LAZY)
-        @JoinColumn(name = "board")
+        @JoinColumn(name = "BOARD_ID")
         var board: Board,
 
         @Column
