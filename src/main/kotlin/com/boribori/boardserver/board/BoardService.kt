@@ -73,7 +73,8 @@ class BoardService (
         }
 
         fun getBoardEntity(isbn : String) : Board {
-                boardRepository.findByIsbn(isbn)?.let { return it }
+                boardRepository.findByIsbn(isbn)?.let {
+                        return it }
                         ?: throw RuntimeException("에러~")
         }
 
