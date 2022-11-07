@@ -3,7 +3,6 @@ package com.boribori.boardserver.comment
 import com.boribori.boardserver.auth.dto.AuthUser
 import com.boribori.boardserver.board.BoardService
 import com.boribori.boardserver.comment.dto.RequestOfCreateComment
-import com.boribori.boardserver.comment.dto.RequestOfGetComment
 import com.boribori.boardserver.comment.dto.ResponseOfGetComment
 import com.boribori.boardserver.comment.dto.ResponseOfGetCommentList
 import org.springframework.data.domain.Pageable
@@ -40,7 +39,8 @@ class CommentService (
                     writer = v.username,
                     comment = v.content,
                     createdAt = v.createdAt,
-                    replyNum = v.replyList.size
+                    replyNum = v.replyList.size,
+                    page = v.page
             ))
         }
         return ResponseOfGetCommentList(
@@ -51,5 +51,9 @@ class CommentService (
 
         )
 
+    }
+
+    fun getCommentEntity(commentId: String): Comment{
+        return commentRepository.findById(commentId).get()
     }
 }
