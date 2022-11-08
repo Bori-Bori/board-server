@@ -25,8 +25,8 @@ class CommentController (
         ){
 
     @GetMapping("/api/board/{boardId}/comment")
-    fun getComment(@PathVariable boardId : String, @RequestParam order:String, @PageableDefault(page = 0, size = 5) pageable: Pageable): ResponseEntity<Response<ResponseOfGetCommentList>>{
-        var getCommentList = commentService.getComment(boardId, order, pageable)
+    fun getComment(@PathVariable boardId : String, requestOfGetComment: RequestOfGetComment, @PageableDefault(page = 0, size = 5) pageable: Pageable): ResponseEntity<Response<ResponseOfGetCommentList>>{
+        var getCommentList = commentService.getComment(boardId, requestOfGetComment, pageable)
         return ResponseEntity(
             Response(
                     status = Response.Status("$boardId 의 댓글이 정상적으로 조회되었습니다."),
