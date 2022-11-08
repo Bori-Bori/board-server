@@ -57,7 +57,6 @@ class CommentService (
             ))
         }
         //number = 현재 슬라이스 번호
-        //
         return ResponseOfGetCommentList(
                 items = commentList,
                 size = commentListPage.size,
