@@ -3,9 +3,11 @@ package com.boribori.boardserver.auth
 import com.boribori.boardserver.auth.dto.AuthUser
 import com.boribori.boardserver.auth.dto.AuthenticationFromJwt
 import com.boribori.boardserver.auth.dto.UserDataOfJwt
+import io.jsonwebtoken.security.SignatureException
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.filter.GenericFilterBean
 import java.net.http.HttpRequest
+
 import javax.servlet.FilterChain
 import javax.servlet.ServletRequest
 import javax.servlet.ServletResponse
@@ -16,12 +18,14 @@ class JwtAuthenticationFilter (
         private val AUTHORIZATION_HEADER : String = "Authorization",
         private val BEARER_PREFIX : String = "Bearer "
         ): GenericFilterBean() {
+
+
     override fun doFilter(request: ServletRequest, response: ServletResponse, chain: FilterChain) {
         var authorizationHeader : String? = (request as HttpServletRequest).getHeader(AUTHORIZATION_HEADER)
 
         if(authorizationHeader == null){
             chain.doFilter(request, response);
-            return;
+            return
         }
         val token : String = getToken(authorizationHeader)
 //        if(token == ""){
@@ -29,11 +33,14 @@ class JwtAuthenticationFilter (
 //            return
 //        }
 
-        var userData : UserDataOfJwt? = jwtProvider.getUserData(token)
+
+        var userData: UserDataOfJwt? = jwtProvider.getUserData(token)
 
         var context = userData?.id?.let { AuthUser(id = it, userPayloads = userData) }
 
         SecurityContextHolder.getContext().authentication = context?.let { AuthenticationFromJwt(authUserContext = it) }
+
+
 
         chain.doFilter(request, response)
 

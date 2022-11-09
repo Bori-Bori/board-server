@@ -1,5 +1,6 @@
 package com.boribori.boardserver.config
 
+import com.boribori.boardserver.auth.JwtAuthenticationFailureHandler
 import com.boribori.boardserver.auth.JwtAuthenticationFilter
 import com.boribori.boardserver.auth.JwtProvider
 import org.springframework.http.HttpMethod
@@ -31,10 +32,14 @@ class SecurityConfig(
                 .authorizeRequests() // 요청에 대한 사용권한 체크
                 .antMatchers("/test").authenticated()
                 .antMatchers("/api/board/**").permitAll()
-                .antMatchers("/api/board/**/comment").permitAll()
+                .antMatchers(HttpMethod.GET,"/api/board/**/comment").permitAll()
+                .antMatchers(HttpMethod.POST,"/api/board/**/comment").authenticated()
                 .and()
                 .addFilterBefore(JwtAuthenticationFilter(jwtProvider),
-                        UsernamePasswordAuthenticationFilter::class.java) // JwtAuthenticationFilter를 UsernamePasswordAuthenticationFilter 전에 넣는다
+                        UsernamePasswordAuthenticationFilter::class.java)
+                .addFilterBefore(JwtAuthenticationFailureHandler(), JwtAuthenticationFilter::class.java)
+
+                // JwtAuthenticationFilter를 UsernamePasswordAuthenticationFilter 전에 넣는다
 
         // + 토큰에 저장된 유저정보를 활용하여야 하기 때문에 CustomUserDetailService 클래스를 생성합니다.
         // + 토큰에 저장된 유저정보를 활용하여야 하기 때문에 CustomUserDetailService 클래스를 생성합니다.
