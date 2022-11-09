@@ -1,8 +1,8 @@
 package com.boribori.boardserver.common
 
 data class Response<T: Any>(
-        val status : Status,
-        val content : T
+        val status: Status,
+        val content: Any?
     ) {
 
 
