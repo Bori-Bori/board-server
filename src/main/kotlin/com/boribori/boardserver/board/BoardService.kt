@@ -2,13 +2,12 @@ package com.boribori.boardserver.board
 
 import com.boribori.boardserver.board.dto.request.RequestOfGetBooks
 import com.boribori.boardserver.board.dto.response.ResponseOfGetBoard
+import com.boribori.boardserver.board.exception.NotFoundBoardException
 import com.boribori.boardserver.common.Content
-import com.boribori.boardserver.util.ParsingUtil
 import com.boribori.boardserver.util.RequestUtil
 import com.boribori.boardserver.util.dto.ResponseOfGetBook
 import org.springframework.stereotype.Service
-import java.lang.RuntimeException
-import java.util.*
+import kotlin.RuntimeException
 
 @Service
 class BoardService (
@@ -73,10 +72,7 @@ class BoardService (
         }
 
         fun getBoardEntity(isbn : String) : Board {
-                boardRepository.findByIsbn(isbn)?.let {
-                        return it }
-                        ?: throw RuntimeException("에러~")
+               return boardRepository.findByIsbn(isbn)?: throw NotFoundBoardException(msg = "해당하는 게시글을 찾을 수 없습니다.")
         }
-
 
 }

@@ -1,5 +1,7 @@
 package com.boribori.boardserver.util
 
+import com.boribori.boardserver.board.exception.NotFoundBookException
+import com.boribori.boardserver.common.Response
 import com.boribori.boardserver.util.dto.ResponseOfGetBook
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -35,7 +37,10 @@ class RestTemplateFactory{
         var params : HashMap<String, String> = HashMap();
         params.put("isbn", isbn)
         val response : String? = restTemplate.getForObject<String>("http://localhost:8081/api/search/book?isbn="+isbn,getHttpEntity(), String :: class)
-        return objectMapper.readValue(response, ResponseOfGetBook::class.java);
+
+        val result = objectMapper.readValue(response, ResponseOfGetBook::class.java);
+        result.content?: throw NotFoundBookException("해당하는 책을 찾을 수 없습니다.");
+        return result;
     }
 
 }

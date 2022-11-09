@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Slice
 import org.springframework.data.domain.Sort
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
 
@@ -66,6 +67,6 @@ class CommentService (
     }
 
     fun getCommentEntity(commentId: String): Comment{
-        return commentRepository.findById(commentId).get()
+        return commentRepository.findByIdOrNull(commentId)?: throw RuntimeException("에러~")
     }
 }
