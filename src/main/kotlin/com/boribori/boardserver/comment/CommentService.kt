@@ -39,7 +39,6 @@ class CommentService (
         var commentList = mutableListOf<ResponseOfGetComment>()
         if(requestOfGetComment.order == "page"){
             var pageable2 = PageRequest.of(pageable.pageNumber, pageable.pageSize, Sort.by("createdAt").descending())
-            println("여기 - > " + requestOfGetComment.bookPage)
             if(requestOfGetComment.bookPage == "") requestOfGetComment.bookPage = "1"
             commentListPage = commentRepository.findByBoardAndPage(boardService.getBoardEntity(boardId), requestOfGetComment.bookPage.toInt(), pageable2)
         }else{
