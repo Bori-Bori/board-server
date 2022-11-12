@@ -1,5 +1,6 @@
 package com.boribori.boardserver.util
 
+import com.boribori.boardserver.board.dto.request.RequestOfSearchBooks
 import com.boribori.boardserver.util.dto.ResponseOfGetBook
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
@@ -14,6 +15,10 @@ class RequestUtil (
 
     fun getIsbn(isbn : String) : ResponseOfGetBook {
         return restTemplateFactory.exchage(isbn)
+    }
+
+    fun searchBookList(requestOfSearchBooks: RequestOfSearchBooks){
+
     }
 
 }

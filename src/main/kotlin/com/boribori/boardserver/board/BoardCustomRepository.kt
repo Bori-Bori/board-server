@@ -6,5 +6,5 @@ import org.springframework.data.domain.Slice
 
 
 interface BoardCustomRepository {
-    fun searchAllBoards(requestOfSearchBooks: RequestOfSearchBooks, pageable: Pageable) : Slice<Board>
+    fun searchAllBoards(requestOfSearchBooks: RequestOfSearchBooks, pageable: Pageable) : MutableList<Board>
 }

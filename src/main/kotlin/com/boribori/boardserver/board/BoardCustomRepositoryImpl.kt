@@ -6,7 +6,6 @@ import com.querydsl.core.types.Order
 import com.querydsl.core.types.OrderSpecifier
 import com.querydsl.core.types.dsl.BooleanExpression
 import com.querydsl.jpa.impl.JPAQueryFactory
-import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Slice
 import org.springframework.data.domain.SliceImpl
@@ -15,8 +14,9 @@ import org.springframework.data.domain.SliceImpl
 class BoardCustomRepositoryImpl(
         private val queryFactory: JPAQueryFactory
 ) : BoardCustomRepository {
-    override fun searchAllBoards(requestOfSearchBooks: RequestOfSearchBooks, pageable: Pageable): Slice<Board> {
-        var boardList = queryFactory.selectFrom(board)
+    override fun searchAllBoards(requestOfSearchBooks: RequestOfSearchBooks, pageable: Pageable): MutableList<Board> {
+        return queryFactory.selectFrom(board)
+                .leftJoin(board.commentList).fetchJoin()
                 .where(
                     checkQueryType(requestOfSearchBooks.queryType, requestOfSearchBooks.keyword!!),
                         eqCategory1(requestOfSearchBooks.category1),
@@ -27,8 +27,6 @@ class BoardCustomRepositoryImpl(
                 .limit(pageable.pageSize.toLong())
                 .orderBy(OrderSpecifier(Order.DESC, board.viewCount))
                 .fetch()
-
-        return afterTreatments(boardList, pageable)
 
     }
 
@@ -82,7 +80,15 @@ class BoardCustomRepositoryImpl(
             return containsPublisher(query)
         }
 
+        if(queryType == "category"){
+            return searchCategory(query)
+        }
+
         return containTitleAndAuthor(query)
+    }
+    private fun searchCategory(category: String?): BooleanExpression{
+        category?: return board.category1.contains("");
+        return board.category1.contains("").or(board.category2.contains("")).or(board.category2.contains(""))
     }
 
     private fun afterTreatments(boardList : MutableList<Board>, pageable: Pageable): Slice<Board>{

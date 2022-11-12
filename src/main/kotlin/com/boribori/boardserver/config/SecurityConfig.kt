@@ -33,6 +33,7 @@ class SecurityConfig(
                 .antMatchers("/test").authenticated()
                 .antMatchers("/api/board/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/api/board/**/comment").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/boards").permitAll()
                 .antMatchers(HttpMethod.POST,"/api/board/**/comment").authenticated()
                 .and()
                 .addFilterBefore(JwtAuthenticationFilter(jwtProvider),
