@@ -15,6 +15,7 @@ class BoardCustomRepositoryImpl(
         private val queryFactory: JPAQueryFactory
 ) : BoardCustomRepository {
     override fun searchAllBoards(requestOfSearchBooks: RequestOfSearchBooks, pageable: Pageable): MutableList<Board> {
+        println("asdfasdf = " + pageable.offset)
         return queryFactory.selectFrom(board)
                 .leftJoin(board.commentList).fetchJoin()
                 .where(
@@ -25,7 +26,6 @@ class BoardCustomRepositoryImpl(
                 )
                 .offset(pageable.offset)
                 .limit(pageable.pageSize.toLong())
-                .orderBy(OrderSpecifier(Order.DESC, board.viewCount))
                 .fetch()
 
     }
@@ -36,18 +36,18 @@ class BoardCustomRepositoryImpl(
     }
 
     private fun eqCategory1(category1 : String?) : BooleanExpression{
-        category1?:return board.category1.eq("")
-        return board.category1.eq(category1)
+        category1?:return board.category1.contains("")
+        return board.category1.contains(category1)
     }
 
     private fun eqCategory2(category2 : String?) : BooleanExpression{
-        category2?:return board.category2.eq("")
-        return board.category2.eq(category2)
+        category2?:return board.category2.contains("")
+        return board.category2.contains(category2)
     }
 
     private fun eqCategory3(category3 : String?) : BooleanExpression{
-        category3?: board.category3.eq("")
-        return board.category3.eq(category3)
+        category3?: board.category3.contains("")
+        return board.category3.contains(category3)
     }
 
     private fun containsAuthor(author : String) : BooleanExpression{
@@ -89,13 +89,5 @@ class BoardCustomRepositoryImpl(
     private fun searchCategory(category: String?): BooleanExpression{
         category?: return board.category1.contains("");
         return board.category1.contains("").or(board.category2.contains("")).or(board.category2.contains(""))
-    }
-
-    private fun afterTreatments(boardList : MutableList<Board>, pageable: Pageable): Slice<Board>{
-        var hasNext = true;
-        if(boardList.size < pageable.pageSize){
-            hasNext = false;
-        }
-        return SliceImpl<Board>(boardList, pageable, hasNext)
     }
 }

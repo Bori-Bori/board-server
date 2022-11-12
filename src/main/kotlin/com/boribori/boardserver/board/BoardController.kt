@@ -36,8 +36,7 @@ class BoardController(
     }
 
     @GetMapping("/api/boards")
-    fun searchBoards(requestOfSearchBooks :RequestOfSearchBooks, @PageableDefault(size = 5, page = 0) pageable: Pageable): Slice<ResponseOfSearchBoards>{
-        println("aaa = " + requestOfSearchBooks.category1 + requestOfSearchBooks.category2 + requestOfSearchBooks.category3)
+    fun searchBoards(requestOfSearchBooks :RequestOfSearchBooks, @PageableDefault(size = 5, page = 0) pageable: Pageable): ResponseOfSearchBoards{
         return boardService.searchBoards(requestOfSearchBooks, pageable)
     }
 

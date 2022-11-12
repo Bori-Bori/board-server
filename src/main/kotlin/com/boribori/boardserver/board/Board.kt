@@ -30,7 +30,7 @@ class Board ( @Id val isbn: String,
               var publisher: String? = null,
 
               @Column
-              val viewCount: Long = 0,
+              val viewCount: Long? = 0,
 
               @Column
               val imagePath: String? = null,
