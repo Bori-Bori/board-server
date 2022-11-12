@@ -2,10 +2,15 @@ package com.boribori.boardserver.board
 
 import com.boribori.boardserver.auth.dto.AuthUser
 import com.boribori.boardserver.board.dto.request.RequestOfGetBooks
+import com.boribori.boardserver.board.dto.request.RequestOfSearchBooks
 import com.boribori.boardserver.board.dto.response.ResponseOfGetBoard
+import com.boribori.boardserver.board.dto.response.ResponseOfSearchBoards
 import com.boribori.boardserver.common.Response
 import com.boribori.boardserver.util.RequestUtil
 import com.boribori.boardserver.util.dto.ResponseOfGetBook
+import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Slice
+import org.springframework.data.web.PageableDefault
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.annotation.AuthenticationPrincipal
@@ -31,8 +36,8 @@ class BoardController(
     }
 
     @GetMapping("/api/boards")
-    fun getBoardList(@RequestParam request: RequestOfGetBooks){
-
+    fun searchBoards(requestOfSearchBooks :RequestOfSearchBooks, @PageableDefault(size = 5, page = 0) pageable: Pageable): ResponseOfSearchBoards{
+        return boardService.searchBoards(requestOfSearchBooks, pageable)
     }
 
     @GetMapping("/api/board/{boardId}/abc")

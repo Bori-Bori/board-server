@@ -1,9 +1,10 @@
 package com.boribori.boardserver.board
 
-import com.boribori.boardserver.comment.dto.RequestOfGetComment
-import org.springframework.data.domain.Page
-import java.awt.print.Pageable
+import com.boribori.boardserver.board.dto.request.RequestOfSearchBooks
+import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Slice
+
 
 interface BoardCustomRepository {
-    fun getBoard(requestOfGetComment: RequestOfGetComment, pageable: Pageable) : Page<Board>
+    fun searchAllBoards(requestOfSearchBooks: RequestOfSearchBooks, pageable: Pageable) : MutableList<Board>
 }

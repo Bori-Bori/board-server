@@ -29,6 +29,12 @@ class Board ( @Id val isbn: String,
               @Column
               var publisher: String? = null,
 
+              @Column
+              val viewCount: Long? = 0,
+
+              @Column
+              val imagePath: String? = null,
+
               @OneToMany(cascade = [(CascadeType.ALL)], fetch = FetchType.LAZY, mappedBy = "board")
               var commentList: MutableList<Comment> = mutableListOf<Comment>()){
 
