@@ -23,6 +23,7 @@ data class ResponseOfGetBoard(
         var category3: String? = null,
 
         var description: String? = null,
-        var publisher : String? = null
+        var publisher : String? = null,
+        var imagePath : String? = null
 ) {
 }

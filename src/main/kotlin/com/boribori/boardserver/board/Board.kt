@@ -8,6 +8,7 @@ import javax.persistence.*
 
 @Entity
 class Board ( @Id val isbn: String,
+
               @Column
               val title: String? = null,
 
@@ -30,10 +31,10 @@ class Board ( @Id val isbn: String,
               var publisher: String? = null,
 
               @Column
-              val viewCount: Long? = 0,
+              var viewCount: Long? = 0,
 
               @Column
-              val imagePath: String? = null,
+              var imagePath: String? = null,
 
               @OneToMany(cascade = [(CascadeType.ALL)], fetch = FetchType.LAZY, mappedBy = "board")
               var commentList: MutableList<Comment> = mutableListOf<Comment>()){

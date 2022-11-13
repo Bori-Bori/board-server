@@ -1,8 +1,9 @@
 package com.boribori.boardserver.board
 
+import com.boribori.boardserver.board.dto.request.RequestOfGetBooks
 import com.boribori.boardserver.board.dto.request.RequestOfSearchBoards
-import com.boribori.boardserver.board.dto.request.RequestOfSearchBooks
 import com.boribori.boardserver.board.dto.response.ResponseOfGetBoard
+import com.boribori.boardserver.board.dto.response.ResponseOfGetBooks
 import com.boribori.boardserver.board.dto.response.ResponseOfSearchBoard
 import com.boribori.boardserver.board.dto.response.ResponseOfSearchBoards
 import com.boribori.boardserver.board.exception.NotFoundBoardException
@@ -36,7 +37,8 @@ class BoardService (
                                                 category2 = content?.category2,
                                                 category3 = content?.category3,
                                                 description = content?.description,
-                                                publisher = content?.publisher
+                                                publisher = content?.publisher,
+                                                imagePath = content?.imagePath
                                         )
                                 }
 
@@ -44,6 +46,8 @@ class BoardService (
                                 isbn = isbn,
                                 author = content?.author,
                                 publisher = content?.publisher,
+                                viewCount = 0,
+                                imagePath = content?.imagePath,
                                 pubDate = content?.pubDate,
                                 title = content?.title,
                                 category1 = content?.category1,
@@ -62,7 +66,8 @@ class BoardService (
                                         category2 = content?.category2,
                                         category3 = content?.category3,
                                         description = content?.description,
-                                        publisher = content?.publisher
+                                        publisher = content?.publisher,
+                                        imagePath = content?.imagePath
                                 )
 
                         }
@@ -97,18 +102,12 @@ class BoardService (
 
         }
 
-    fun searchBooks(requestOfSearchBooks: RequestOfSearchBooks,pageable: Pageable){
-        requestUtil.searchBookList(requestOfSearchBooks, pageable)
+    fun getBooks(requestOfSearchBooks: RequestOfGetBooks) : ResponseOfGetBooks {
+        return requestUtil.searchBookList(requestOfSearchBooks)
     }
 
     private fun afterTreatments(boardList : MutableList<ResponseOfSearchBoard>, pageable: Pageable, query: String): ResponseOfSearchBoards{
-        var hasNext = true;
-        if(boardList.size < pageable.pageSize){
-            hasNext = false;
-        }
-
         return ResponseOfSearchBoards().of(boardList, pageable, query)
-
     }
 
 }
