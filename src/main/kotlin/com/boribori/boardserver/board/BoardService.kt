@@ -23,53 +23,18 @@ class BoardService (
 
                 var responseOfGetBook : ResponseOfGetBook = requestUtil.getIsbn(isbn)
                 var content : ResponseOfGetBookContent? = responseOfGetBook.content
+                        ?: throw NotFoundBoardException(msg = "해당 게시 글을 찾을 수 없습니다.")
 
                 boardRepository.findByIsbn(isbn)
                         .let {
 
-                                if(it != null){
-                                        return ResponseOfGetBoard(
-                                                isbn = isbn,
-                                                author = content?.author,
-                                                pubDate = content?.pubDate,
-                                                title = content?.title,
-                                                category1 = content?.category1,
-                                                category2 = content?.category2,
-                                                category3 = content?.category3,
-                                                description = content?.description,
-                                                publisher = content?.publisher,
-                                                imagePath = content?.imagePath
-                                        )
+
+                                it?: run {
+                                    var board = Board().of(content!!)
+                                    boardRepository.save(board)
+                                    return ResponseOfGetBoard().of(content)
                                 }
-
-                                var board = Board(
-                                isbn = isbn,
-                                author = content?.author,
-                                publisher = content?.publisher,
-                                viewCount = 0,
-                                imagePath = content?.imagePath,
-                                pubDate = content?.pubDate,
-                                title = content?.title,
-                                category1 = content?.category1,
-                                category2 = content?.category2,
-                                category3 = content?.category3,
-                                commentList = mutableListOf()
-                        );
-
-                                boardRepository.save(board)
-                                return ResponseOfGetBoard(
-                                        isbn = isbn,
-                                        author = content?.author,
-                                        pubDate = content?.pubDate,
-                                        title = content?.title,
-                                        category1 = content?.category1,
-                                        category2 = content?.category2,
-                                        category3 = content?.category3,
-                                        description = content?.description,
-                                        publisher = content?.publisher,
-                                        imagePath = content?.imagePath
-                                )
-
+                                return ResponseOfGetBoard().of(it)
                         }
 
 
