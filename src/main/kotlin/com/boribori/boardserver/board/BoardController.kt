@@ -1,8 +1,10 @@
 package com.boribori.boardserver.board
 
 import com.boribori.boardserver.auth.dto.AuthUser
+import com.boribori.boardserver.board.dto.request.RequestOfGetBooks
 import com.boribori.boardserver.board.dto.request.RequestOfSearchBoards
 import com.boribori.boardserver.board.dto.response.ResponseOfGetBoard
+import com.boribori.boardserver.board.dto.response.ResponseOfGetBooks
 import com.boribori.boardserver.board.dto.response.ResponseOfSearchBoards
 import com.boribori.boardserver.common.Response
 import com.boribori.boardserver.util.RequestUtil
@@ -34,8 +36,13 @@ class BoardController(
     }
 
     @GetMapping("/api/board/search")
-    fun getBoard(): ResponseEntity<Response<ResponseOfGetBoard>>{
-        TODO()
+    fun getBooks(requestOfGetBooks: RequestOfGetBooks): ResponseEntity<Response<ResponseOfGetBooks>>{
+
+        return ResponseEntity(Response(
+                content = boardService.getBooks(requestOfGetBooks),
+                status = Response.Status("성공적으로 조회되었습니다.")
+        ), HttpStatus.OK);
+
     }
 
     @GetMapping("/api/boards")
