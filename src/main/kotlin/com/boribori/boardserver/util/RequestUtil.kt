@@ -2,6 +2,7 @@ package com.boribori.boardserver.util
 
 import com.boribori.boardserver.board.dto.request.RequestOfSearchBooks
 import com.boribori.boardserver.util.dto.ResponseOfGetBook
+import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
@@ -17,8 +18,8 @@ class RequestUtil (
         return restTemplateFactory.exchage(isbn)
     }
 
-    fun searchBookList(requestOfSearchBooks: RequestOfSearchBooks){
-
+    fun searchBookList(requestOfSearchBooks: RequestOfSearchBooks, pageable: Pageable){
+        
     }
 
 }

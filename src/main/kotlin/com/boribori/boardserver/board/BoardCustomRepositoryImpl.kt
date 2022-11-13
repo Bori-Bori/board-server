@@ -1,20 +1,16 @@
 package com.boribori.boardserver.board
 
 import com.boribori.boardserver.board.QBoard.board
-import com.boribori.boardserver.board.dto.request.RequestOfSearchBooks
-import com.querydsl.core.types.Order
-import com.querydsl.core.types.OrderSpecifier
+import com.boribori.boardserver.board.dto.request.RequestOfSearchBoards
 import com.querydsl.core.types.dsl.BooleanExpression
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.data.domain.Pageable
-import org.springframework.data.domain.Slice
-import org.springframework.data.domain.SliceImpl
 
 
 class BoardCustomRepositoryImpl(
         private val queryFactory: JPAQueryFactory
 ) : BoardCustomRepository {
-    override fun searchAllBoards(requestOfSearchBooks: RequestOfSearchBooks, pageable: Pageable): MutableList<Board> {
+    override fun searchAllBoards(requestOfSearchBooks: RequestOfSearchBoards, pageable: Pageable): MutableList<Board> {
         println("asdfasdf = " + pageable.offset)
         return queryFactory.selectFrom(board)
                 .leftJoin(board.commentList).fetchJoin()

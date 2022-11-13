@@ -1,15 +1,13 @@
 package com.boribori.boardserver.board
 
 import com.boribori.boardserver.auth.dto.AuthUser
-import com.boribori.boardserver.board.dto.request.RequestOfGetBooks
-import com.boribori.boardserver.board.dto.request.RequestOfSearchBooks
+import com.boribori.boardserver.board.dto.request.RequestOfSearchBoards
 import com.boribori.boardserver.board.dto.response.ResponseOfGetBoard
 import com.boribori.boardserver.board.dto.response.ResponseOfSearchBoards
 import com.boribori.boardserver.common.Response
 import com.boribori.boardserver.util.RequestUtil
 import com.boribori.boardserver.util.dto.ResponseOfGetBook
 import org.springframework.data.domain.Pageable
-import org.springframework.data.domain.Slice
 import org.springframework.data.web.PageableDefault
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -35,9 +33,18 @@ class BoardController(
         ), HttpStatus.OK);
     }
 
+    @GetMapping("/api/board/search")
+    fun getBoard(): ResponseEntity<Response<ResponseOfGetBoard>>{
+        TODO()
+    }
+
     @GetMapping("/api/boards")
-    fun searchBoards(requestOfSearchBooks :RequestOfSearchBooks, @PageableDefault(size = 5, page = 0) pageable: Pageable): ResponseOfSearchBoards{
-        return boardService.searchBoards(requestOfSearchBooks, pageable)
+    fun searchBoards(requestOfSearchBooks : RequestOfSearchBoards, @PageableDefault(size = 5, page = 0) pageable: Pageable): ResponseEntity<Response<ResponseOfSearchBoards>>{
+
+        return ResponseEntity(Response(
+                content = boardService.getBoards(requestOfSearchBooks, pageable),
+                status = Response.Status("성공적으로 조회되었습니다.")
+        ), HttpStatus.OK);
     }
 
     @GetMapping("/api/board/{boardId}/abc")

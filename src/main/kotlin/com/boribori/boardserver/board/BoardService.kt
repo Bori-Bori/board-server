@@ -1,19 +1,16 @@
 package com.boribori.boardserver.board
 
-import com.boribori.boardserver.board.dto.request.RequestOfGetBooks
+import com.boribori.boardserver.board.dto.request.RequestOfSearchBoards
 import com.boribori.boardserver.board.dto.request.RequestOfSearchBooks
 import com.boribori.boardserver.board.dto.response.ResponseOfGetBoard
 import com.boribori.boardserver.board.dto.response.ResponseOfSearchBoard
 import com.boribori.boardserver.board.dto.response.ResponseOfSearchBoards
 import com.boribori.boardserver.board.exception.NotFoundBoardException
-import com.boribori.boardserver.common.Content
+import com.boribori.boardserver.common.ResponseOfGetBookContent
 import com.boribori.boardserver.util.RequestUtil
 import com.boribori.boardserver.util.dto.ResponseOfGetBook
 import org.springframework.data.domain.Pageable
-import org.springframework.data.domain.Slice
-import org.springframework.data.domain.SliceImpl
 import org.springframework.stereotype.Service
-import kotlin.RuntimeException
 
 @Service
 class BoardService (
@@ -24,7 +21,7 @@ class BoardService (
         fun getBoard(isbn: String): ResponseOfGetBoard {
 
                 var responseOfGetBook : ResponseOfGetBook = requestUtil.getIsbn(isbn)
-                var content : Content? = responseOfGetBook.content
+                var content : ResponseOfGetBookContent? = responseOfGetBook.content
 
                 boardRepository.findByIsbn(isbn)
                         .let {
@@ -77,7 +74,7 @@ class BoardService (
                return boardRepository.findByIsbn(isbn)?: throw NotFoundBoardException(msg = "해당하는 게시글을 찾을 수 없습니다.")
         }
 
-        fun searchBoards(requestOfSearchBooks: RequestOfSearchBooks, pageable: Pageable): ResponseOfSearchBoards {
+        fun getBoards(requestOfSearchBooks: RequestOfSearchBoards, pageable: Pageable): ResponseOfSearchBoards {
                 var boardList = boardRepository.searchAllBoards(requestOfSearchBooks, pageable)
 
                 var boardListDto = mutableListOf<ResponseOfSearchBoard>()
@@ -99,6 +96,10 @@ class BoardService (
 
 
         }
+
+    fun searchBooks(requestOfSearchBooks: RequestOfSearchBooks,pageable: Pageable){
+        requestUtil.searchBookList(requestOfSearchBooks, pageable)
+    }
 
     private fun afterTreatments(boardList : MutableList<ResponseOfSearchBoard>, pageable: Pageable, query: String): ResponseOfSearchBoards{
         var hasNext = true;

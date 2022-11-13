@@ -13,10 +13,10 @@ class ResponseOfSearchBoards(
     var query : String = ""
     fun of(boardsList: MutableList<ResponseOfSearchBoard>, pageable: Pageable, query: String): ResponseOfSearchBoards{
         var isFirst = false;
-        var isLast = true;
+        var isLast = false;
 
         if(boardsList.size < pageable.pageSize){
-            isLast = false;
+            isLast = true;
         }
 
         if(pageable.pageNumber == 0){
@@ -28,6 +28,7 @@ class ResponseOfSearchBoards(
         result.isLast = isLast
         result.page = pageable.pageNumber
         result.size = pageable.pageSize
+        result.query = query
 
         return result
     }
