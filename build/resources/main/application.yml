@@ -1,6 +1,7 @@
 # default application setting
 # encoding properties
 server:
+  port: 8082
   servlet:
     encoding:
       charset: UTF-8
@@ -20,11 +21,11 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:
         format_sql: true
 
 jwt:
-  access-token-key: "123"
+  access-token-key: "asdlkfjalds3kjfdsl2kmcsd--ewifwei1"

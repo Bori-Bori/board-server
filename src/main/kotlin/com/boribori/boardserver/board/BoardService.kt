@@ -1,14 +1,17 @@
 package com.boribori.boardserver.board
 
 import com.boribori.boardserver.board.dto.request.RequestOfGetBooks
+import com.boribori.boardserver.board.dto.request.RequestOfSearchBoards
 import com.boribori.boardserver.board.dto.response.ResponseOfGetBoard
-import com.boribori.boardserver.common.Content
-import com.boribori.boardserver.util.ParsingUtil
+import com.boribori.boardserver.board.dto.response.ResponseOfGetBooks
+import com.boribori.boardserver.board.dto.response.ResponseOfSearchBoard
+import com.boribori.boardserver.board.dto.response.ResponseOfSearchBoards
+import com.boribori.boardserver.board.exception.NotFoundBoardException
+import com.boribori.boardserver.common.ResponseOfGetBookContent
 import com.boribori.boardserver.util.RequestUtil
 import com.boribori.boardserver.util.dto.ResponseOfGetBook
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
-import java.lang.RuntimeException
-import java.util.*
 
 @Service
 class BoardService (
@@ -16,14 +19,10 @@ class BoardService (
         private val requestUtil: RequestUtil,
         ){
 
-        fun getBoardList(requestOfGetBooks: RequestOfGetBooks){
-
-        }
-
         fun getBoard(isbn: String): ResponseOfGetBoard {
 
                 var responseOfGetBook : ResponseOfGetBook = requestUtil.getIsbn(isbn)
-                var content : Content? = responseOfGetBook.content
+                var content : ResponseOfGetBookContent? = responseOfGetBook.content
 
                 boardRepository.findByIsbn(isbn)
                         .let {
@@ -38,7 +37,8 @@ class BoardService (
                                                 category2 = content?.category2,
                                                 category3 = content?.category3,
                                                 description = content?.description,
-                                                publisher = content?.publisher
+                                                publisher = content?.publisher,
+                                                imagePath = content?.imagePath
                                         )
                                 }
 
@@ -46,6 +46,8 @@ class BoardService (
                                 isbn = isbn,
                                 author = content?.author,
                                 publisher = content?.publisher,
+                                viewCount = 0,
+                                imagePath = content?.imagePath,
                                 pubDate = content?.pubDate,
                                 title = content?.title,
                                 category1 = content?.category1,
@@ -64,7 +66,8 @@ class BoardService (
                                         category2 = content?.category2,
                                         category3 = content?.category3,
                                         description = content?.description,
-                                        publisher = content?.publisher
+                                        publisher = content?.publisher,
+                                        imagePath = content?.imagePath
                                 )
 
                         }
@@ -73,9 +76,38 @@ class BoardService (
         }
 
         fun getBoardEntity(isbn : String) : Board {
-                boardRepository.findByIsbn(isbn)?.let { return it }
-                        ?: throw RuntimeException("에러~")
+               return boardRepository.findByIsbn(isbn)?: throw NotFoundBoardException(msg = "해당하는 게시글을 찾을 수 없습니다.")
         }
 
+        fun getBoards(requestOfSearchBooks: RequestOfSearchBoards, pageable: Pageable): ResponseOfSearchBoards {
+                var boardList = boardRepository.searchAllBoards(requestOfSearchBooks, pageable)
+
+                var boardListDto = mutableListOf<ResponseOfSearchBoard>()
+
+                boardList.stream()
+                        .forEach {
+                                boardListDto.add(
+                                        ResponseOfSearchBoard(
+                                                title = it.title,
+                                                author = it.author,
+                                                isbn = it.isbn,
+                                                commentCount = it.commentList.size,
+                                                imagePath = it.imagePath
+                                                )
+                                )
+                        }
+
+            return afterTreatments(boardListDto, pageable, requestOfSearchBooks.keyword!!)
+
+
+        }
+
+    fun getBooks(requestOfSearchBooks: RequestOfGetBooks) : ResponseOfGetBooks {
+        return requestUtil.searchBookList(requestOfSearchBooks)
+    }
+
+    private fun afterTreatments(boardList : MutableList<ResponseOfSearchBoard>, pageable: Pageable, query: String): ResponseOfSearchBoards{
+        return ResponseOfSearchBoards().of(boardList, pageable, query)
+    }
 
 }

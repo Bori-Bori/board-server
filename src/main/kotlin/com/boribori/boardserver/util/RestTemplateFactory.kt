@@ -1,20 +1,19 @@
 package com.boribori.boardserver.util
 
+import com.boribori.boardserver.board.dto.request.RequestOfGetBooks
+import com.boribori.boardserver.board.dto.response.ResponseOfGetBooks
+import com.boribori.boardserver.board.exception.NotFoundBookException
 import com.boribori.boardserver.util.dto.ResponseOfGetBook
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.KotlinModule
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
-import org.springframework.http.HttpMethod
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.client.getForObject
-import org.springframework.web.util.UriBuilder
-import org.springframework.web.util.UriBuilderFactory
-import org.springframework.web.util.UriComponentsBuilder
+import org.yaml.snakeyaml.util.UriEncoder
+import java.net.URLEncoder
 
 @Component
 class RestTemplateFactory{
@@ -32,10 +31,24 @@ class RestTemplateFactory{
     }
 
     fun exchage(isbn: String): ResponseOfGetBook {
-        var params : HashMap<String, String> = HashMap();
-        params.put("isbn", isbn)
         val response : String? = restTemplate.getForObject<String>("http://localhost:8081/api/search/book?isbn="+isbn,getHttpEntity(), String :: class)
-        return objectMapper.readValue(response, ResponseOfGetBook::class.java);
+
+        val result = objectMapper.readValue(response, ResponseOfGetBook::class.java)
+        result.content?: throw NotFoundBookException("해당하는 책을 찾을 수 없습니다.");
+        return result;
+    }
+    fun getBooks(requestOfSearchBooks: RequestOfGetBooks): ResponseOfGetBooks{
+        var url = "http://localhost:8081/api/search/books?query=" +
+                requestOfSearchBooks.keyword + "&start=" +
+                (requestOfSearchBooks.size * requestOfSearchBooks.page + 1).toString()+
+                "&maxResults="+ requestOfSearchBooks.size.toString() + "&queryType=" +
+                requestOfSearchBooks.queryType +
+                "&output=js"
+
+        val response : String? = restTemplate.getForObject<String>(url, getHttpEntity(), String :: class)
+
+        return objectMapper.readValue(response, ResponseOfGetBooks::class.java)
+
     }
 
 }

@@ -8,29 +8,36 @@ import javax.persistence.*
 
 @Entity
 class Board ( @Id val isbn: String,
-              @Column
-              private var title: String? = null,
 
               @Column
-              private var author: String? = null,
+              val title: String? = null,
 
               @Column
-              private var pubDate: LocalDate? = null,
+              val author: String? = null,
 
               @Column
-              private var category1: String? = null,
+              var pubDate: LocalDate? = null,
 
               @Column
-              private var category2: String? = null,
+              var category1: String? = null,
 
               @Column
-              private var category3: String? = null,
+              var category2: String? = null,
 
               @Column
-              private var publisher: String? = null,
+              var category3: String? = null,
+
+              @Column
+              var publisher: String? = null,
+
+              @Column
+              var viewCount: Long? = 0,
+
+              @Column
+              var imagePath: String? = null,
 
               @OneToMany(cascade = [(CascadeType.ALL)], fetch = FetchType.LAZY, mappedBy = "board")
-              private var commentList: MutableList<Comment> = mutableListOf<Comment>()){
+              var commentList: MutableList<Comment> = mutableListOf<Comment>()){
 
 
 
