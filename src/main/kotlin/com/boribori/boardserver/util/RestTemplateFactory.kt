@@ -2,6 +2,7 @@ package com.boribori.boardserver.util
 
 import com.boribori.boardserver.board.dto.request.RequestOfSearchBooks
 import com.boribori.boardserver.board.dto.response.ResponseOfSearchBoards
+import com.boribori.boardserver.board.dto.response.ResponseOfSearchBooks
 import com.boribori.boardserver.board.exception.NotFoundBookException
 import com.boribori.boardserver.common.Response
 import com.boribori.boardserver.util.dto.ResponseOfGetBook
@@ -41,19 +42,22 @@ class RestTemplateFactory{
         params.put("isbn", isbn)
         val response : String? = restTemplate.getForObject<String>("http://localhost:8081/api/search/book?isbn="+isbn,getHttpEntity(), String :: class)
 
-        val result = objectMapper.readValue(response, ResponseOfGetBook::class.java);
+        val result = objectMapper.readValue(response, ResponseOfGetBook::class.java)
         result.content?: throw NotFoundBookException("해당하는 책을 찾을 수 없습니다.");
         return result;
     }
 
-//    fun exchage(requestOfSearchBooks: RequestOfSearchBooks, pageable: Pageable): ResponseOfSearchBoards{
-//        var params : HashMap<String, String> = HashMap();
-//        params.put("query", requestOfSearchBooks.keyword)
-//        params.put("start", pageable.offset.toString())
-//        params.put("maxResults", pageable.pageSize.toString())
-//        params.put("queryType", requestOfSearchBooks.queryType)
-//
-//
-//    }
+    fun exchage(requestOfSearchBooks: RequestOfSearchBooks, pageable: Pageable): ResponseOfSearchBoards{
+        var params : HashMap<String, String> = HashMap();
+        params.put("query", requestOfSearchBooks.keyword)
+        params.put("start", pageable.offset.toString())
+        params.put("maxResults", pageable.pageSize.toString())
+        params.put("queryType", requestOfSearchBooks.queryType)
+
+        val response : String? = restTemplate.getForObject<String>("http://localhost:8082/api/search/books", params, getHttpEntity(), String :: class)
+
+        val result = objectMapper.readValue(response, ResponseOfSearchBooks::class.java)
+        TODO()
+    }
 
 }

@@ -3,8 +3,8 @@ package com.boribori.boardserver.common
 import com.google.gson.annotations.SerializedName
 import java.time.LocalDate
 
-data class Content (
-
+data class ResponseOfGetBookContent (
+        // mutalble list -> 아래 필드 가지고있는 dto로 변환해주어야함
         @SerializedName("isbn"        ) var isbn        : String?  = null,
         @SerializedName("title"       ) var title       : String?  = null,
         @SerializedName("author"      ) var author      : String?  = null,
