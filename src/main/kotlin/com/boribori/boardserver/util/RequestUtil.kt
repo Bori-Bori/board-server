@@ -4,12 +4,14 @@ import com.boribori.boardserver.board.dto.request.RequestOfGetBooks
 import com.boribori.boardserver.board.dto.request.RequestOfSearchBooks
 import com.boribori.boardserver.board.dto.response.ResponseOfGetBooks
 import com.boribori.boardserver.util.dto.ResponseOfGetBook
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Component
 
 @Component
 class RequestUtil (
         private val restTemplateFactory: RestTemplateFactory
         ){
+
 
     fun getIsbn(isbn : String) : ResponseOfGetBook {
         return restTemplateFactory.exchage(isbn)
