@@ -6,6 +6,7 @@ import com.boribori.boardserver.board.dto.request.RequestOfSearchBoards
 import com.boribori.boardserver.board.dto.response.ResponseOfGetBoard
 import com.boribori.boardserver.board.dto.response.ResponseOfGetBooks
 import com.boribori.boardserver.board.dto.response.ResponseOfSearchBoards
+import com.boribori.boardserver.board.redis.BoardRepositoryRedis
 import com.boribori.boardserver.common.Response
 import com.boribori.boardserver.util.RequestUtil
 import com.boribori.boardserver.util.dto.ResponseOfGetBook
@@ -22,7 +23,8 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class BoardController(
         private val boardService: BoardService,
-        private val requestUtil: RequestUtil
+        private val requestUtil: RequestUtil,
+        private val boardRepositoryRedis: BoardRepositoryRedis
 ) {
 
     @GetMapping("/api/board/{boardId}")
@@ -54,9 +56,11 @@ class BoardController(
         ), HttpStatus.OK);
     }
 
+
     @GetMapping("/api/board/{boardId}/abc")
     fun getISBN(@RequestParam isbn : String, @AuthenticationPrincipal authUser: AuthUser): ResponseOfGetBook? {
         return requestUtil.getIsbn(isbn);
     }
+
 
 }

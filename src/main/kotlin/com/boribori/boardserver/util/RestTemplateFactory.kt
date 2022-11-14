@@ -35,6 +35,7 @@ class RestTemplateFactory{
 
         val result = objectMapper.readValue(response, ResponseOfGetBook::class.java)
         result.content?: throw NotFoundBookException("해당하는 책을 찾을 수 없습니다.");
+
         return result;
     }
     fun getBooks(requestOfSearchBooks: RequestOfGetBooks): ResponseOfGetBooks{
