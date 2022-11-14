@@ -10,6 +10,7 @@ import com.boribori.boardserver.board.exception.NotFoundBoardException
 import com.boribori.boardserver.common.ResponseOfGetBookContent
 import com.boribori.boardserver.util.RequestUtil
 import com.boribori.boardserver.util.dto.ResponseOfGetBook
+import org.springframework.cache.annotation.CachePut
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
@@ -20,7 +21,7 @@ class BoardService (
         private val requestUtil: RequestUtil,
         ){
 
-        @Cacheable(value = ["board"], key="#isbn")
+        @CachePut(value = ["board"], key="#isbn")
         fun getBoard(isbn: String): ResponseOfGetBoard {
 
                 var responseOfGetBook  = requestUtil.getIsbn(isbn)
