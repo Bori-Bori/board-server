@@ -2,8 +2,10 @@ package com.boribori.boardserver.board.event
 
 import com.boribori.boardserver.board.Board
 import com.boribori.boardserver.board.BoardService
+import com.boribori.boardserver.comment.Comment
 import lombok.extern.slf4j.Slf4j
 import org.springframework.context.event.EventListener
+import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Component
 import org.springframework.transaction.event.TransactionalEventListener
@@ -11,7 +13,9 @@ import org.springframework.transaction.event.TransactionalEventListener
 
 @Component
 class BoardEventHandler(
-        private final val boardService: BoardService
+        private final val boardService: BoardService,
+        private final val kafkaTemplate: KafkaTemplate<String, Any>,
+        private final val COMMENT_TOPIC: String = "bori"
 ) {
     @Async
     @EventListener
@@ -25,14 +29,6 @@ class BoardEventHandler(
         return
     }
 
-    @Async
-    @EventListener
-    fun viewCount(boardEntity : Board){
-        Thread.sleep(5000L)
-        println("5초 후")
-        boardEntity.updateViewCount(1L)
 
-        return
-    }
 
 }
