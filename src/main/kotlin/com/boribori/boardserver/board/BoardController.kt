@@ -10,6 +10,7 @@ import com.boribori.boardserver.board.redis.BoardRepositoryRedis
 import com.boribori.boardserver.common.Response
 import com.boribori.boardserver.util.RequestUtil
 import com.boribori.boardserver.util.dto.ResponseOfGetBook
+import org.springframework.context.ApplicationEventPublisher
 import org.springframework.data.domain.Pageable
 import org.springframework.data.web.PageableDefault
 import org.springframework.http.HttpStatus
@@ -24,12 +25,13 @@ import org.springframework.web.bind.annotation.RestController
 class BoardController(
         private val boardService: BoardService,
         private val requestUtil: RequestUtil,
-        private val boardRepositoryRedis: BoardRepositoryRedis
+        private val eventPublisher: ApplicationEventPublisher
 ) {
 
     @GetMapping("/api/board/{boardId}")
     fun getBoard(@PathVariable boardId: String): ResponseEntity<Response<ResponseOfGetBoard>>{
         var boardEntity = boardService.getBoard(boardId);
+        eventPublisher.publishEvent(boardEntity.isbn!!)
 
         return ResponseEntity(Response(
                 content = boardEntity,

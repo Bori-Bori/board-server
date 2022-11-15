@@ -7,42 +7,60 @@ import com.boribori.boardserver.board.dto.response.ResponseOfGetBooks
 import com.boribori.boardserver.board.dto.response.ResponseOfSearchBoard
 import com.boribori.boardserver.board.dto.response.ResponseOfSearchBoards
 import com.boribori.boardserver.board.exception.NotFoundBoardException
-import com.boribori.boardserver.common.ResponseOfGetBookContent
 import com.boribori.boardserver.util.RequestUtil
-import com.boribori.boardserver.util.dto.ResponseOfGetBook
 import org.springframework.cache.annotation.CachePut
 import org.springframework.cache.annotation.Cacheable
+import org.springframework.context.ApplicationEventPublisher
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class BoardService (
         private val boardRepository: BoardRepository,
-        private val requestUtil: RequestUtil,
+        private val requestUtil: RequestUtil
         ){
 
-        @CachePut(value = ["board"], key="#isbn")
+
+        @Cacheable(value = ["board"], key="#isbn")
         fun getBoard(isbn: String): ResponseOfGetBoard {
+            var result = getBoardDto(isbn)
+            return result
+        }
 
-                var responseOfGetBook  = requestUtil.getIsbn(isbn)
-                var content  = responseOfGetBook.content
-                        ?: throw NotFoundBoardException(msg = "해당 게시 글을 찾을 수 없습니다.")
 
-                boardRepository.findByIsbn(isbn)
-                        .let {
-                                it?: run {
-                                    var board = Board().of(content!!)
-                                    boardRepository.save(board)
-                                    return ResponseOfGetBoard().of(content)
-                                }
+        fun getBoardDto(isbn: String): ResponseOfGetBoard{
+            var responseOfGetBook  = requestUtil.getIsbn(isbn)
+            var content  = responseOfGetBook.content
+                    ?: throw NotFoundBoardException(msg = "해당 게시 글을 찾을 수 없습니다.")
 
-                                return ResponseOfGetBoard().of(content)
+            BoardEntity(isbn)
+                    .let {
+                        it?: run {
+                            var board = Board().of(content!!)
+                            boardRepository.save(board)
+                            return ResponseOfGetBoard().of(content)
                         }
 
+                        return ResponseOfGetBoard().of(content)
+                    }
+
+        }
+
+
+        fun BoardEntity(isbn : String): Board?{
+            return boardRepository.findByIsbn(isbn)
         }
 
         fun getBoardEntity(isbn : String) : Board {
                return boardRepository.findByIsbn(isbn)?: throw NotFoundBoardException(msg = "해당하는 게시글을 찾을 수 없습니다.")
+        }
+        fun getBoardEntity2(isbn : String) : Board {
+        return boardRepository.findByIsbnFetch(isbn)?: throw NotFoundBoardException(msg = "해당하는 게시글을 찾을 수 없습니다.")
+    }
+
+        fun saveBoardEntity(board : Board){
+            boardRepository.save(board)
         }
 
         fun getBoards(requestOfSearchBooks: RequestOfSearchBoards, pageable: Pageable): ResponseOfSearchBoards {
