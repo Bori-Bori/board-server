@@ -6,5 +6,6 @@ data class ResponseOfGetReply(
 
         val reply: String,
         val createdAt: LocalDateTime,
-        val writer: String
+        val userId: String,
+        val userNickname: String
 )
