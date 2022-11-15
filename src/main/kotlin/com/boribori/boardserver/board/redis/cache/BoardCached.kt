@@ -1,10 +1,8 @@
-package com.boribori.boardserver.board.redis
+package com.boribori.boardserver.board.redis.cache
 
-import com.boribori.boardserver.board.Board
 import com.boribori.boardserver.common.ResponseOfGetBookContent
 import org.springframework.data.redis.core.RedisHash
 import java.time.LocalDate
-import javax.persistence.Column
 import javax.persistence.Id
 
 @RedisHash(value = "board")

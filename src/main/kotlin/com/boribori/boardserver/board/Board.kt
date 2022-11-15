@@ -35,7 +35,7 @@ class Board {
     var publisher: String? = null
 
     @Column
-    var viewCount: Long? = 0
+    var viewCount: Long = 0
 
     @Column
     var imagePath: String? = null
@@ -52,11 +52,14 @@ class Board {
         this.category2 = content.category2
         this.category3 = content.category3
         this.publisher = content.publisher
-        this.viewCount = 1
         this.pubDate = content.pubDate
         this.commentList = mutableListOf()
 
         return this
+    }
+
+    fun updateViewCount(count : Long){
+        this.viewCount = viewCount + count;
     }
 
 
