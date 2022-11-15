@@ -2,10 +2,7 @@ package com.boribori.boardserver.comment
 
 import com.boribori.boardserver.auth.dto.AuthUser
 import com.boribori.boardserver.board.BoardService
-import com.boribori.boardserver.comment.dto.RequestOfCreateComment
-import com.boribori.boardserver.comment.dto.RequestOfGetComment
-import com.boribori.boardserver.comment.dto.ResponseOfGetComment
-import com.boribori.boardserver.comment.dto.ResponseOfGetCommentList
+import com.boribori.boardserver.comment.dto.*
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Slice
@@ -26,7 +23,7 @@ class CommentService (
 
         var comment = Comment(
                 board = boardEntity,
-                username = authUser.username,
+                userNickname = authUser.username,
                 userId = authUser.id,
                 content = requestOfCreateComment.content,
                 page = requestOfCreateComment.page
@@ -49,7 +46,7 @@ class CommentService (
         commentListPage.content.stream().forEach{v ->
             commentList.add(ResponseOfGetComment(
                     id = v.id,
-                    writer = v.username,
+                    writer = v.userNickname,
                     comment = v.content,
                     createdAt = v.createdAt,
                     replyNum = v.replyList.size,
@@ -68,4 +65,14 @@ class CommentService (
     fun getCommentEntity(commentId: String): Comment{
         return commentRepository.findByIdOrNull(commentId)?: throw RuntimeException("에러~")
     }
+
+    fun updateNickname(eventOfUpdateNickname: EventOfUpdateNickname){
+        var commentList = commentRepository.findAllByUserId(eventOfUpdateNickname.id)
+                ?: throw RuntimeException("해당하는 댓글을 찾지 못하였습니다.")
+
+        commentList.stream().forEach{
+            v -> v.updateNickname(eventOfUpdateNickname.nickname)
+        }
+    }
+
 }

@@ -24,8 +24,14 @@ class Reply (
         var comment: Comment,
 
         @Column
-        var writer: String,
+        var userId: String,
+        @Column
+        var userNickname : String
+
         ) : ReplyBaseEntity() {
 
+                fun updateNickname(nickname: String){
+                        this.userNickname = nickname
+                }
 
 }

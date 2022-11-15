@@ -2,6 +2,7 @@ package com.boribori.boardserver.reply
 
 import com.boribori.boardserver.auth.dto.AuthUser
 import com.boribori.boardserver.comment.CommentService
+import com.boribori.boardserver.comment.dto.EventOfUpdateNickname
 import com.boribori.boardserver.reply.dto.RequestOfCreateReply
 import com.boribori.boardserver.reply.dto.ResponseOfCreateReply
 import com.boribori.boardserver.reply.dto.ResponseOfGetReply
@@ -21,11 +22,14 @@ class ReplyService (
         var replyEntity = replyRepository.save(Reply(
                 content = requestOfCreateReply.content,
                 comment = commentEntity,
-                writer = authUser.username
+                userNickname = authUser.username,
+                userId = authUser.id
+
         ))
 
         return ResponseOfCreateReply(
-                writer = replyEntity.writer,
+                userNickname = replyEntity.userNickname,
+                userId = replyEntity.userId,
                 createdAt = replyEntity.createdAt,
                 reply = replyEntity.content
         )
@@ -40,7 +44,8 @@ class ReplyService (
         replyListPage.content.stream().forEach{v ->
             replyList.add(ResponseOfGetReply(
                     reply = v.content,
-                    writer = v.writer,
+                    userId = v.userId,
+                    userNickname = v.userNickname,
                     createdAt = v.createdAt
             ))
         }
@@ -50,6 +55,17 @@ class ReplyService (
                 currentPage = replyListPage.number,
                 size = replyListPage.size
         )
+
+    }
+
+
+    fun updateNickname(eventOfUpdateNickname: EventOfUpdateNickname){
+        var replyList = replyRepository.findAllByUserId(eventOfUpdateNickname.id)
+                ?: throw RuntimeException("해당하는 댓글을 찾지 못하였습니다.")
+
+        replyList.stream().forEach{
+            v -> v.updateNickname(eventOfUpdateNickname.nickname)
+        }
 
     }
 }

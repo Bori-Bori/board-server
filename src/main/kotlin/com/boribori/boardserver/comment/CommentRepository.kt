@@ -12,4 +12,6 @@ interface CommentRepository : JpaRepository<Comment, String>{
     fun findByBoard(board: Board, pageable: Pageable): Slice<Comment>
     fun findByBoardAndPage(board: Board, page: Int, pageable: Pageable) : Slice<Comment>
     fun findByBoard(board: Board): Comment
+
+    fun findAllByUserId(userId: String): MutableList<Comment>?
 }
