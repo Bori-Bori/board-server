@@ -69,10 +69,14 @@ class CommentService (
     fun updateNickname(eventOfUpdateNickname: EventOfUpdateNickname){
         var commentList = commentRepository.findAllByUserId(eventOfUpdateNickname.id)
                 ?: throw RuntimeException("해당하는 댓글을 찾지 못하였습니다.")
-
-        commentList.stream().forEach{
-            v -> v.updateNickname(eventOfUpdateNickname.nickname)
+        commentList.map{
+            it.updateNickname(eventOfUpdateNickname.nickname)
         }
+
+        commentRepository.saveAll(commentList)
+
+
+
     }
 
 }
