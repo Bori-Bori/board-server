@@ -62,10 +62,11 @@ class ReplyService (
     fun updateNickname(eventOfUpdateNickname: EventOfUpdateNickname){
         var replyList = replyRepository.findAllByUserId(eventOfUpdateNickname.id)
                 ?: throw RuntimeException("해당하는 댓글을 찾지 못하였습니다.")
-
-        replyList.stream().forEach{
-            v -> v.updateNickname(eventOfUpdateNickname.nickname)
+        replyList.map{
+            it.updateNickname(eventOfUpdateNickname.nickname)
         }
+
+        replyRepository.saveAll(replyList)
 
     }
 }
