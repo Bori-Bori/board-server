@@ -7,13 +7,15 @@ import com.boribori.boardserver.reply.dto.RequestOfCreateReply
 import com.boribori.boardserver.reply.dto.ResponseOfCreateReply
 import com.boribori.boardserver.reply.dto.ResponseOfGetReply
 import com.boribori.boardserver.reply.dto.ResponseOfGetReplyList
+import org.springframework.context.ApplicationEventPublisher
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 
 @Service
 class ReplyService (
         private val replyRepository: ReplyRepository,
-        private val commentService: CommentService
+        private val commentService: CommentService,
+        private val eventPublisher: ApplicationEventPublisher
         ){
 
     fun createReply(commentId: String, authUser: AuthUser, requestOfCreateReply : RequestOfCreateReply): ResponseOfCreateReply {
@@ -26,7 +28,7 @@ class ReplyService (
                 userId = authUser.id
 
         ))
-
+        eventPublisher.publishEvent(replyEntity)
         return ResponseOfCreateReply(
                 userNickname = replyEntity.userNickname,
                 userId = replyEntity.userId,
