@@ -31,7 +31,7 @@ class ReplyService (
         eventPublisher.publishEvent(replyEntity)
         return ResponseOfCreateReply(
                 userNickname = replyEntity.userNickname,
-                userId = replyEntity.userId,
+                userId = commentEntity.userId,
                 createdAt = replyEntity.createdAt,
                 reply = replyEntity.content
         )
