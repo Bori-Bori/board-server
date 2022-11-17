@@ -44,16 +44,19 @@ class EventHandler(
     @Async
     @EventListener
     fun alarmComment(reply: Reply){
-        println("event 왔음~")
         var dto = EventOfPublishReplyAlarm(
                 replyId = reply.id,
-                userId = reply.userId,
+                replyUserNickname = reply.userNickname,
                 commentId = reply.comment.id,
-                content = reply.content,
-                createdAt = reply.createdAt
+                commentContent = reply.comment.content,
+                boardId = reply.comment.board.isbn,
+                commentUserId = reply.comment.userId,
+                createdAt = reply.createdAt,
+                page = reply.comment.page,
+                replyContent = reply.content
         )
+
         var json = objectMapper.writeValueAsString(dto)
-        println("json = $json")
         kafkaTemplate.send("reply", json)
     }
 }

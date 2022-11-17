@@ -3,9 +3,14 @@ package com.boribori.boardserver.event.dto
 import java.time.LocalDateTime
 
 data class EventOfPublishReplyAlarm(
-        val userId : String,
+        val commentUserId : String,
         val commentId : String,
+        val replyUserNickname: String,
+        val commentContent: String,
         val replyId : String,
-        val content : String,
+        val replyContent : String,
+        val boardId : String,
         val createdAt : LocalDateTime,
+        val page : Int
+
 )
