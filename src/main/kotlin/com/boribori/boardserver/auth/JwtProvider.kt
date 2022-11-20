@@ -23,7 +23,8 @@ class JwtProvider
 
             return UserDataOfJwt(
                     id = claims.subject,
-                    nickname = claims.get("nickname") as String
+                    nickname = claims["nickname"] as String,
+                    userProfile = claims["profile_image"] as String
             )
 
     }
@@ -36,7 +37,7 @@ class JwtProvider
             return Jwts.parser()
                     .setSigningKey(tokenKey.toByteArray(StandardCharsets.UTF_8))
                     .parseClaimsJws(token)
-                    .getBody()
+                    .body
 
 
     }

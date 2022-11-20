@@ -26,7 +26,8 @@ class CommentService (
                 userNickname = authUser.username,
                 userId = authUser.id,
                 content = requestOfCreateComment.content,
-                page = requestOfCreateComment.page
+                page = requestOfCreateComment.page,
+                profileImage = authUser.getProfileImage()
         );
         return commentRepository.save(comment);
     }
@@ -66,11 +67,12 @@ class CommentService (
         return commentRepository.findByIdOrNull(commentId)?: throw RuntimeException("에러~")
     }
 
-    fun updateNickname(eventOfUpdateNickname: EventOfUpdateNickname){
+    fun updateProfile(eventOfUpdateNickname: EventOfUpdateNickname){
         var commentList = commentRepository.findAllByUserId(eventOfUpdateNickname.id)
                 ?: throw RuntimeException("해당하는 댓글을 찾지 못하였습니다.")
         commentList.map{
             it.updateNickname(eventOfUpdateNickname.nickname)
+            it.updateProfileImage(eventOfUpdateNickname.profilePath)
         }
 
         commentRepository.saveAll(commentList)

@@ -33,12 +33,19 @@ class Comment(
         var userId : String,
 
         @Column
-        var page: Int
+        var page: Int,
+
+        @Column
+        var profileImage: String
 
 ): CommentBaseEntity() {
 
         fun updateNickname(nickname: String){
                 this.userNickname = nickname
+        }
+
+        fun updateProfileImage(profileImage : String){
+                this.profileImage = profileImage
         }
 
 

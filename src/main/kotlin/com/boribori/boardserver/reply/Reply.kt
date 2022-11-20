@@ -26,12 +26,19 @@ class Reply (
         @Column
         var userId: String,
         @Column
-        var userNickname : String
+        var userNickname : String,
+
+        @Column
+        var profileImage: String
 
         ) : ReplyBaseEntity() {
 
                 fun updateNickname(nickname: String){
                         this.userNickname = nickname
                 }
+
+        fun updateProfileImage(profileImage: String){
+                this.profileImage = profileImage
+        }
 
 }
