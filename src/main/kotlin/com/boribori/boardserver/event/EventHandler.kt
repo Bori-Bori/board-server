@@ -30,15 +30,15 @@ class EventHandler(
         kafkaTemplate.send(COMMENT_TOPIC, comment);
     }
 
-    @KafkaListener(topics = ["nickname"], groupId = "foo")
+    @KafkaListener(topics = ["profile"], groupId = "foo")
     fun nicknameEvent(dto : String){
 
         var gson = Gson()
 
         var event = gson.fromJson(dto, EventOfUpdateNickname::class.java);
 
-        commentService.updateNickname(event)
-        replyService.updateNickname(event)
+        commentService.updateProfile(event)
+        replyService.updateProfile(event)
     }
 
     @Async
@@ -59,4 +59,5 @@ class EventHandler(
         var json = objectMapper.writeValueAsString(dto)
         kafkaTemplate.send("reply", json)
     }
+
 }

@@ -52,4 +52,8 @@ class AuthUser (
     override fun isEnabled(): Boolean {
         return false
     }
+
+    fun getProfileImage(): String{
+        return userPayloads.userProfile
+    }
 }

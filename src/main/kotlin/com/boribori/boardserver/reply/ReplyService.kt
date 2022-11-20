@@ -25,8 +25,8 @@ class ReplyService (
                 content = requestOfCreateReply.content,
                 comment = commentEntity,
                 userNickname = authUser.username,
-                userId = authUser.id
-
+                userId = authUser.id,
+                profileImage = authUser.getProfileImage()
         ))
         eventPublisher.publishEvent(replyEntity)
         return ResponseOfCreateReply(
@@ -61,11 +61,12 @@ class ReplyService (
     }
 
 
-    fun updateNickname(eventOfUpdateNickname: EventOfUpdateNickname){
+    fun updateProfile(eventOfUpdateNickname: EventOfUpdateNickname){
         var replyList = replyRepository.findAllByUserId(eventOfUpdateNickname.id)
                 ?: throw RuntimeException("해당하는 댓글을 찾지 못하였습니다.")
         replyList.map{
             it.updateNickname(eventOfUpdateNickname.nickname)
+            it.updateProfileImage(eventOfUpdateNickname.profilePath)
         }
 
         replyRepository.saveAll(replyList)
