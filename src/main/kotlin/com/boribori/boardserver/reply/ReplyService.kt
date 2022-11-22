@@ -2,17 +2,20 @@ package com.boribori.boardserver.reply
 
 import com.boribori.boardserver.auth.dto.AuthUser
 import com.boribori.boardserver.comment.CommentService
+import com.boribori.boardserver.comment.dto.EventOfUpdateNickname
 import com.boribori.boardserver.reply.dto.RequestOfCreateReply
 import com.boribori.boardserver.reply.dto.ResponseOfCreateReply
 import com.boribori.boardserver.reply.dto.ResponseOfGetReply
 import com.boribori.boardserver.reply.dto.ResponseOfGetReplyList
+import org.springframework.context.ApplicationEventPublisher
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 
 @Service
 class ReplyService (
         private val replyRepository: ReplyRepository,
-        private val commentService: CommentService
+        private val commentService: CommentService,
+        private val eventPublisher: ApplicationEventPublisher
         ){
 
     fun createReply(commentId: String, authUser: AuthUser, requestOfCreateReply : RequestOfCreateReply): ResponseOfCreateReply {
@@ -21,11 +24,14 @@ class ReplyService (
         var replyEntity = replyRepository.save(Reply(
                 content = requestOfCreateReply.content,
                 comment = commentEntity,
-                writer = authUser.username
+                userNickname = authUser.username,
+                userId = authUser.id,
+                profileImage = authUser.getProfileImage()
         ))
-
+        eventPublisher.publishEvent(replyEntity)
         return ResponseOfCreateReply(
-                writer = replyEntity.writer,
+                userNickname = replyEntity.userNickname,
+                userId = commentEntity.userId,
                 createdAt = replyEntity.createdAt,
                 reply = replyEntity.content
         )
@@ -40,7 +46,8 @@ class ReplyService (
         replyListPage.content.stream().forEach{v ->
             replyList.add(ResponseOfGetReply(
                     reply = v.content,
-                    writer = v.writer,
+                    userId = v.userId,
+                    userNickname = v.userNickname,
                     createdAt = v.createdAt
             ))
         }
@@ -50,6 +57,19 @@ class ReplyService (
                 currentPage = replyListPage.number,
                 size = replyListPage.size
         )
+
+    }
+
+
+    fun updateProfile(eventOfUpdateNickname: EventOfUpdateNickname){
+        var replyList = replyRepository.findAllByUserId(eventOfUpdateNickname.id)
+                ?: throw RuntimeException("해당하는 댓글을 찾지 못하였습니다.")
+        replyList.map{
+            it.updateNickname(eventOfUpdateNickname.nickname)
+            it.updateProfileImage(eventOfUpdateNickname.profilePath)
+        }
+
+        replyRepository.saveAll(replyList)
 
     }
 }

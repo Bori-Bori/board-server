@@ -41,7 +41,7 @@ class CommentController (
         var responseOfCreateComment = ResponseOfCreateComment(
             boardId = commentEntity.board.isbn,
                 userId = commentEntity.userId,
-                username = commentEntity.username,
+                username = commentEntity.userNickname,
                 page = commentEntity.page,
                 createdAt = commentEntity.createdAt,
                 content = commentEntity.content

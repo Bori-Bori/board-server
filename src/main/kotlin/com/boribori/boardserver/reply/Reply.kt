@@ -24,8 +24,21 @@ class Reply (
         var comment: Comment,
 
         @Column
-        var writer: String,
+        var userId: String,
+        @Column
+        var userNickname : String,
+
+        @Column
+        var profileImage: String
+
         ) : ReplyBaseEntity() {
 
+                fun updateNickname(nickname: String){
+                        this.userNickname = nickname
+                }
+
+        fun updateProfileImage(profileImage: String){
+                this.profileImage = profileImage
+        }
 
 }

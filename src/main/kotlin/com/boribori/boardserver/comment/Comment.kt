@@ -3,6 +3,7 @@ package com.boribori.boardserver.comment
 import com.boribori.boardserver.board.Board
 import com.boribori.boardserver.board.dto.response.ResponseOfGetBoard
 import com.boribori.boardserver.comment.auditing.CommentBaseEntity
+import com.boribori.boardserver.comment.dto.EventOfUpdateNickname
 import com.boribori.boardserver.reply.Reply
 import lombok.Builder
 import java.util.UUID
@@ -26,16 +27,26 @@ class Comment(
         var board: Board,
 
         @Column
-        var username: String,
+        var userNickname: String,
 
         @Column
         var userId : String,
 
         @Column
-        var page: Int
+        var page: Int,
+
+        @Column
+        var profileImage: String
 
 ): CommentBaseEntity() {
 
+        fun updateNickname(nickname: String){
+                this.userNickname = nickname
+        }
+
+        fun updateProfileImage(profileImage : String){
+                this.profileImage = profileImage
+        }
 
 
 }

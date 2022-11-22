@@ -26,7 +26,8 @@ class ResponseOfGetBoard{
 
     var description: String? = null
     var publisher : String? = null
-    private var imagePath : String? = null
+    var imagePath : String? = null
+    var viewCount : Int = 1
 
     fun of(content : ResponseOfGetBookContent) : ResponseOfGetBoard{
         this.isbn = content.isbn.toString()
@@ -40,6 +41,7 @@ class ResponseOfGetBoard{
         this.publisher = content.publisher
         this.imagePath = content.imagePath
         this.pubDate = content.pubDate
+        this.viewCount = viewCount + 1
 
         return this
     }

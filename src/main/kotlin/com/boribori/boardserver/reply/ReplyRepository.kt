@@ -10,4 +10,6 @@ interface ReplyRepository : JpaRepository<Reply, String>{
 
     fun findByComment(comment: Comment, pageable: Pageable) : Page<Reply>
 
+    fun findAllByUserId(userId: String): MutableList<Reply>?
+
 }
