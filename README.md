@@ -24,6 +24,9 @@
 
 # Server Stack
 
+## Language
+Kotlin
+
 ## Web Framework
 
 * Web Framework : Spring(Boot)
@@ -51,6 +54,9 @@
 * zookeeper
 * Kafka
 * Topics : profile, reply
+
+## Build Tool
+* Gradle 7.5.1
 
 
 
