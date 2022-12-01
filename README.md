@@ -9,6 +9,34 @@
 4. Create Pull & Request
 5. Merge 🤗 
 
+## How To Run?
+
+1. Git Clone
+2. Turn On your MySql
+3. Create DB
+4. Turn On your Redis
+5. Turn On your zookeeper
+6. Turn On your Kafka
+7. move directory to /board-server
+8. type code
+
+```bash
+$ ./gradlew build
+```
+
+9. move to ./build/libs
+10. run jar file
+
+```bash
+$ java -jar ~.jar
+```
+
+or To Run Background
+
+```bash
+$ nohup java -jar ~.jar & /dev/null
+```
+
 ## 기능
 
 1. 댓글 기능
