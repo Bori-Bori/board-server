@@ -1,7 +1,7 @@
-# board-server
+# 🤗 board-server
 이 레포지토리는 boribori 서비스의 board server 레포지토리입니다.
 
-## How To Contribute?
+## 🧐 How To Contribute?
 
 1. Fork this Repository
 2. Add Issue on this repository
@@ -9,7 +9,7 @@
 4. Create Pull & Request
 5. Merge 🤗 
 
-## How To Run?
+## 🌼 How To Run?
 
 1. Git Clone
 2. Turn On your MySql(port : 3306)
@@ -37,7 +37,7 @@ or To Run Background
 $ nohup java -jar ~.jar & /dev/null
 ```
 
-## 기능
+## 🔎 기능
 
 1. 댓글 기능
 2. 책 게시글 기능
@@ -46,11 +46,11 @@ $ nohup java -jar ~.jar & /dev/null
 # 참고 Wiki
 * [✅ Board Server Wiki Page](https://github.com/Bori-Bori/board-server/wiki)
 
-# Server Architecture
+# 🏢 Server Architecture
 
 <img width="623" alt="스크린샷 2022-12-01 오후 5 34 30" src="https://user-images.githubusercontent.com/79268661/205018381-b6429592-fdde-4427-8af4-5579bcd40873.png">
 
-# Server Stack
+# ☘️ Server Stack
 
 ## Language
 Kotlin
