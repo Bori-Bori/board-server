@@ -93,7 +93,7 @@ Kotlin
 
 * [✅ Board-Server Repository](https://github.com/Bori-Bori/board-server)
 
-* [✅ Auth Wiki](https://github.com/Bori-Bori/auth-server/wiki)
+* [✅ Board-Server Wiki](https://github.com/Bori-Bori/board-server/wiki)
 
 * [✅ BoriBori Wiki](https://simyeon-workspace.notion.site/Bori-Bori-881dcdee1688425bb8c887d637cac598)
 
