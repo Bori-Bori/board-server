@@ -20,7 +20,7 @@
 
 # Server Architecture
 
-<img width="714" alt="image" src="https://user-images.githubusercontent.com/79268661/200160923-1ffa1825-14af-4b47-aaff-f56d121148f3.png">
+<img width="623" alt="스크린샷 2022-12-01 오후 5 34 30" src="https://user-images.githubusercontent.com/79268661/205018381-b6429592-fdde-4427-8af4-5579bcd40873.png">
 
 # Server Stack
 
