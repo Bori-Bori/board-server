@@ -86,6 +86,19 @@ Kotlin
 ## Build Tool
 * Gradle 7.5.1
 
+# 🔗 Reference
+* [✅ Book-Server Repository](https://github.com/Bori-Bori/book-server)
+
+* [✅ Auth-Server Repository](https://github.com/Bori-Bori/auth-server)
+
+* [✅ Board-Server Repository](https://github.com/Bori-Bori/board-server)
+
+* [✅ Auth Wiki](https://github.com/Bori-Bori/auth-server/wiki)
+
+* [✅ BoriBori Wiki](https://simyeon-workspace.notion.site/Bori-Bori-881dcdee1688425bb8c887d637cac598)
+
+* [✅ API 명세서](https://simyeon-workspace.notion.site/API-eb991d72d50d4f5c8069334874fc6442)
+
 
 
 
