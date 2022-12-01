@@ -10,7 +10,7 @@ data class EventOfPublishReplyAlarm(
         val replyId : String,
         val replyContent : String,
         val boardId : String,
-        val createdAt : LocalDateTime,
+        val createdAt : String,
         val page : Int
 
 )

@@ -7,6 +7,7 @@ import com.boribori.boardserver.reply.dto.RequestOfCreateReply
 import com.boribori.boardserver.reply.dto.ResponseOfCreateReply
 import com.boribori.boardserver.reply.dto.ResponseOfGetReply
 import com.boribori.boardserver.reply.dto.ResponseOfGetReplyList
+import com.boribori.boardserver.reply.exception.NotFoundReplyException
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
@@ -48,7 +49,8 @@ class ReplyService (
                     reply = v.content,
                     userId = v.userId,
                     userNickname = v.userNickname,
-                    createdAt = v.createdAt
+                    createdAt = v.createdAt,
+                    userProfileImagePath = v.profileImage
             ))
         }
 
@@ -63,7 +65,7 @@ class ReplyService (
 
     fun updateProfile(eventOfUpdateNickname: EventOfUpdateNickname){
         var replyList = replyRepository.findAllByUserId(eventOfUpdateNickname.id)
-                ?: throw RuntimeException("해당하는 댓글을 찾지 못하였습니다.")
+                ?: throw NotFoundReplyException("해당하는 댓글을 찾지 못하였습니다.")
         replyList.map{
             it.updateNickname(eventOfUpdateNickname.nickname)
             it.updateProfileImage(eventOfUpdateNickname.profilePath)
