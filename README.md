@@ -12,11 +12,11 @@
 ## How To Run?
 
 1. Git Clone
-2. Turn On your MySql
+2. Turn On your MySql(port : 3306)
 3. Create DB
-4. Turn On your Redis
-5. Turn On your zookeeper
-6. Turn On your Kafka
+4. Turn On your Redis(port : 6379)
+5. Turn On your zookeeper(port : 2181)
+6. Turn On your Kafka(port : 9092)
 7. move directory to /board-server
 8. type code
 
