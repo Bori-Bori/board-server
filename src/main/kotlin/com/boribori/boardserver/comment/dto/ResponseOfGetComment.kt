@@ -8,7 +8,8 @@ data class ResponseOfGetComment(
         val createdAt : LocalDateTime,
         val writer : String,
         val replyNum : Int,
-        val page: Int
+        val page: Int,
+        val userProfileImagePath: String? = null
 
 ) {
 }

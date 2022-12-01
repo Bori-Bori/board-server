@@ -3,6 +3,7 @@ package com.boribori.boardserver.comment
 import com.boribori.boardserver.auth.dto.AuthUser
 import com.boribori.boardserver.board.BoardService
 import com.boribori.boardserver.comment.dto.*
+import com.boribori.boardserver.comment.exception.NotFoundCommentException
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Slice
@@ -51,7 +52,8 @@ class CommentService (
                     comment = v.content,
                     createdAt = v.createdAt,
                     replyNum = v.replyList.size,
-                    page = v.page
+                    page = v.page,
+                    userProfileImagePath = v.profileImage
             ))
         }
         //number = 현재 슬라이스 번호
@@ -64,12 +66,12 @@ class CommentService (
     }
 
     fun getCommentEntity(commentId: String): Comment{
-        return commentRepository.findByIdOrNull(commentId)?: throw RuntimeException("에러~")
+        return commentRepository.findByIdOrNull(commentId)?: throw NotFoundCommentException("해당 댓글을 찾을 수 없습니다.")
     }
 
     fun updateProfile(eventOfUpdateNickname: EventOfUpdateNickname){
         var commentList = commentRepository.findAllByUserId(eventOfUpdateNickname.id)
-                ?: throw RuntimeException("해당하는 댓글을 찾지 못하였습니다.")
+                ?: return
         commentList.map{
             it.updateNickname(eventOfUpdateNickname.nickname)
             it.updateProfileImage(eventOfUpdateNickname.profilePath)

@@ -7,5 +7,6 @@ data class ResponseOfGetReply(
         val reply: String,
         val createdAt: LocalDateTime,
         val userId: String,
-        val userNickname: String
+        val userNickname: String,
+        val userProfileImagePath : String? = null
 )
